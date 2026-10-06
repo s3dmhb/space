@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>بوابة الفضاء التفاعلية | أسبوع الفضاء العالمي - ثاني ثانوي موهبة</title>
+  <meta name="description" content="محاكاة تعليمية تفاعلية للنظام الشمسي واستكشاف الفضاء من إعداد الطالبة جوان بنت سعد آل بوعينين بإشراف أ. رحمة اليامي بمناسبة أسبوع الفضاء العالمي." />
+  <meta property="og:title" content="بوابة الفضاء التفاعلية | أسبوع الفضاء العالمي" />
+  <meta property="og:description" content="محاكاة تعليمية تفاعلية للنظام الشمسي وفضاء المملكة العربية السعودية لطالبات موهبة." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Google Fonts: Cairo, Tajawal & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@300;400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Tajawal', 'sans-serif'],
+            cairo: ['Cairo', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            obsidian: '#07090e',
+            spaceDark: '#0B0C10',
+            spaceNavy: '#0F172A',
+            cosmicViolet: '#581C87',
+            cyanGlow: '#38BDF8',
+            goldGlow: '#F59E0B',
+            pinkGlow: '#EC4899',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <style>
+    body {
+      background-color: #07090e;
+      color: #E2E8F0;
+      font-family: 'Tajawal', sans-serif;
+      overflow-x: hidden;
+    }
+    
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0B0C10;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1E293B;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #38BDF8;
+    }
+
+    .glass-card {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    .glass-card-hover {
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .glass-card-hover:hover {
+      border-color: rgba(56, 189, 248, 0.35);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px rgba(56, 189, 248, 0.12);
+    }
+
+    .bg-space-grid {
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(88, 28, 135, 0.18) 0%, transparent 60%),
+        radial-gradient(circle at 100% 70%, rgba(14, 165, 233, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 0% 100%, rgba(236, 72, 153, 0.08) 0%, transparent 50%);
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+
+<body class="bg-obsidian text-slate-100 min-h-screen relative antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
+  
+  <!-- Ambient Space Starfield Canvas Background -->
+  <canvas id="starfieldCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-75"></canvas>
+
+  <div class="relative z-10 flex flex-col min-h-screen bg-space-grid">
+    
+    <!-- Top Bar Navigation (3-zone contract) -->
+    <header class="sticky top-0 z-50 glass-card border-b border-slate-800/80 px-4 md:px-8 py-3.5 transition-all">
+      <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+        
+        <!-- Zone 1: Brand title -->
+        <a href="#hero" class="flex items-center gap-2 group">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 group-hover:rotate-12 transition-transform">
+            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </div>
+          <span class="text-lg md:text-xl font-bold tracking-tight text-white font-cairo">بوابة الفضاء التفاعلية</span>
+        </a>
+
+        <!-- Zone 2: Navigation Links -->
+        <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
+          <a href="#simulation" class="hover:text-cyanGlow transition-colors py-1">المحاكاة المدارية</a>
+          <a href="#explorer" class="hover:text-cyanGlow transition-colors py-1">مستكشف الكواكب</a>
+          <a href="#saudi-space" class="hover:text-cyanGlow transition-colors py-1">المملكة نحو الفضاء</a>
+          <a href="#quiz" class="hover:text-cyanGlow transition-colors py-1">تحدي رائدات الفضاء</a>
+          <a href="#credits" class="hover:text-cyanGlow transition-colors py-1">الاعتماد المدرسي</a>
+        </nav>
+
+        <!-- Zone 3: Primary Actions & Audio Toggle -->
+        <div class="flex items-center gap-2.5">
+          <button id="soundToggleBtn" onclick="toggleCosmicSound()" class="px-3 py-1.5 text-xs font-medium text-slate-300 bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 rounded-lg flex items-center gap-1.5 transition-colors" title="تشغيل نغمة الفضاء المحيطية">
+            <span id="soundIcon">🔇</span>
+            <span id="soundLabel" class="hidden sm:inline">صوت كوني</span>
+          </button>
+          <a href="#simulation" class="px-3.5 py-1.5 text-xs md:text-sm font-bold text-slate-900 bg-gradient-to-r from-cyan-400 to-cyan-300 hover:from-cyan-300 hover:to-cyan-200 rounded-lg shadow-md transition-all whitespace-nowrap">
+            بدء الرحلة
+          </a>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+      
+      <!-- HERO SECTION -->
+      <section id="hero" class="pt-12 pb-8 px-4 md:px-8 max-w-7xl mx-auto text-center">
+        <!-- Unboxed editorial metadata -->
+        <div class="flex items-center justify-center gap-2 text-xs md:text-sm text-cyan-400 font-semibold tracking-wide mb-4">
+          <span>أسبوع الفضاء العالمي</span>
+          <span aria-hidden="true">·</span>
+          <span>فصل موهبة (ثاني ثانوي)</span>
+          <span aria-hidden="true">·</span>
+          <span>طموح يعانق عنان السماء</span>
+        </div>
+
+        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white font-cairo leading-tight max-w-4xl mx-auto mb-5">
+          استكشفي أسرار الكون
+        </h1>
+
+        <p class="text-slate-300 text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed mb-8">
+          منصة تعليمية ومحاكاة فيزيائية حية بمناسبة أسبوع الفضاء العالمي، تجمع بين الفيزياء الفلكية التفاعلية ومسيرة المملكة العربية السعودية الملهمة في علوم واكتشاف الفضاء.
+        </p>
+
+        <!-- Quick Telemetry Counters -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl mx-auto mb-10 text-right">
+          <div class="glass-card p-3 rounded-xl border border-slate-800">
+            <span class="block text-xs text-slate-400 font-medium">الأجرام المبرمجة</span>
+            <span class="text-xl md:text-2xl font-bold font-mono text-cyanGlow tabular-nums">11 جرماً</span>
+          </div>
+          <div class="glass-card p-3 rounded-xl border border-slate-800">
+            <span class="block text-xs text-slate-400 font-medium">سرعة الضوء</span>
+            <span class="text-xl md:text-2xl font-bold font-mono text-white tabular-nums">300,000</span>
+            <span class="text-[10px] text-slate-400 font-mono">كم/ث</span>
+          </div>
+          <div class="glass-card p-3 rounded-xl border border-slate-800">
+            <span class="block text-xs text-slate-400 font-medium">أول رائدة سعودية</span>
+            <span class="text-lg md:text-xl font-bold font-cairo text-pinkGlow">ريانة برناوي</span>
+          </div>
+          <div class="glass-card p-3 rounded-xl border border-slate-800">
+            <span class="block text-xs text-slate-400 font-medium">تجارب الجاذبية الصغرى</span>
+            <span class="text-xl md:text-2xl font-bold font-mono text-goldGlow tabular-nums">14 تجربة</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 1: INTERACTIVE SOLAR SYSTEM SIMULATION -->
+      <section id="simulation" class="py-6 px-4 md:px-8 max-w-7xl mx-auto">
+        <div class="glass-card rounded-2xl p-4 md:p-6 border border-slate-800 relative overflow-hidden">
+          
+          <!-- Simulation Header & Control Deck -->
+          <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 mb-4 pb-4 border-b border-slate-800/80">
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                <h2 class="text-xl md:text-2xl font-bold text-white font-cairo">محاكاة المدارات الفلكية التفاعلية</h2>
+              </div>
+              <p class="text-xs md:text-sm text-slate-400">
+                محاكاة حية ثنائية الأبعاد تمثل نسب السرعات المدارية الحقيقية لكواكب المجموعة الشمسية. انقري على أي كوكب لعرض خصائصه الفيزيائية.
+              </p>
+            </div>
+
+            <!-- Simulation Controls -->
+            <div class="flex flex-wrap items-center gap-2 w-full lg:w-auto">
+              <!-- Play / Pause -->
+              <button id="simPlayPauseBtn" onclick="toggleSimPlay()" class="px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 border border-cyan-500/40 flex items-center gap-1.5 transition-colors">
+                <span id="playPauseIcon">⏸</span>
+                <span id="playPauseText">إيقاف مؤقت</span>
+              </button>
+
+              <!-- Speed Selection -->
+              <div class="flex items-center gap-1 bg-slate-900/90 p-1 rounded-lg border border-slate-800 text-xs">
+                <span class="text-[11px] text-slate-400 px-1">السرعة:</span>
+                <button onclick="setSimSpeed(0.5)" class="speed-btn px-2 py-0.5 rounded text-slate-300 hover:text-white" data-speed="0.5">0.5x</button>
+                <button onclick="setSimSpeed(1)" class="speed-btn px-2 py-0.5 rounded bg-cyan-500 text-slate-900 font-bold" data-speed="1">1x</button>
+                <button onclick="setSimSpeed(3)" class="speed-btn px-2 py-0.5 rounded text-slate-300 hover:text-white" data-speed="3">3x</button>
+                <button onclick="setSimSpeed(8)" class="speed-btn px-2 py-0.5 rounded text-slate-300 hover:text-white" data-speed="8">8x</button>
+              </div>
+
+              <!-- Toggles: Orbits & Labels -->
+              <button onclick="toggleOrbits()" id="toggleOrbitsBtn" class="px-2.5 py-1.5 text-xs font-medium rounded-lg bg-slate-800 text-slate-200 border border-slate-700 hover:bg-slate-700 transition-colors">
+                المدارات: <span id="orbitsStatus" class="text-emerald-400">ظاهرة</span>
+              </button>
+              
+              <button onclick="toggleLabels()" id="toggleLabelsBtn" class="px-2.5 py-1.5 text-xs font-medium rounded-lg bg-slate-800 text-slate-200 border border-slate-700 hover:bg-slate-700 transition-colors">
+                الأسماء: <span id="labelsStatus" class="text-emerald-400">ظاهرة</span>
+              </button>
+
+              <!-- Reset Zoom -->
+              <button onclick="resetSimView()" class="px-2.5 py-1.5 text-xs font-medium rounded-lg bg-slate-800/80 text-slate-300 hover:text-white border border-slate-700 transition-colors">
+                إعادة ضبط المركز ⟲
+              </button>
+            </div>
+          </div>
+
+          <!-- The Solar System Canvas Stage -->
+          <div class="relative w-full h-[460px] md:h-[580px] bg-slate-950/80 rounded-xl overflow-hidden border border-slate-800/60 shadow-inner group">
+            <canvas id="solarCanvas" class="w-full h-full cursor-grab active:cursor-grabbing block"></canvas>
+            
+            <!-- Canvas HUD Overlay (Top-Right) -->
+            <div class="absolute top-3 right-3 bg-slate-900/85 backdrop-blur-md px-3 py-2 rounded-lg border border-slate-800 text-[11px] text-slate-300 pointer-events-none flex flex-col gap-0.5">
+              <span class="text-cyan-400 font-semibold">تحكم المشهد:</span>
+              <span>• اسحبي بالفأرة / اللمس للتحريك</span>
+              <span>• عجلة الفأرة / القرص للتقريب</span>
+              <span>• انقري على أي كوكب لفتحه فوراً</span>
+            </div>
+
+            <!-- Focused Object Badge (Bottom-Right) -->
+            <div id="canvasHoverBadge" class="absolute bottom-3 right-3 bg-slate-900/90 backdrop-blur-md px-3.5 py-2 rounded-lg border border-cyan-500/40 text-xs text-white hidden flex items-center gap-2 shadow-lg">
+              <span id="hoverBadgeDot" class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+              <span id="hoverBadgeName" class="font-bold">الأرض</span>
+              <span class="text-[10px] text-slate-400">(انقري لعرض البيانات)</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- SECTION 2: INTERACTIVE PLANETARIUM & GRAVITY CALCULATOR -->
+      <section id="explorer" class="py-12 px-4 md:px-8 max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+          <div>
+            <div class="flex items-center gap-2 text-xs text-cyan-400 font-semibold mb-1">
+              <span>مستكشف الأجرام والفيزياء</span>
+              <span aria-hidden="true">·</span>
+              <span>بيانات موثوقة لوكالة ناسا وهيئة الفضاء</span>
+            </div>
+            <h2 class="text-2xl md:text-3xl font-bold text-white font-cairo">موسوعة النظام الشمسي والأجرام الكونية</h2>
+          </div>
+          <p class="text-xs md:text-sm text-slate-400 max-w-md">
+            اختاري جرماً سماوياً لاستعراض أبعاده الفيزيائية، درجات حرارته، وحساب وزنك الفعلي عليه بدقة الجاذبية السطحية.
+          </p>
+        </div>
+
+        <!-- Horizontal Celestial Body Selector Bar -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-3 mb-6 no-scrollbar" id="celestialTabsList">
+          <!-- Populated by JavaScript -->
+        </div>
+
+        <!-- Detailed Celestial Fact Sheet Card & Gravity Calculator -->
+        <div id="factSheetContainer" class="glass-card rounded-2xl p-6 md:p-8 border border-slate-800 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          <!-- Visual Graphic & Overview (5 cols) -->
+          <div class="lg:col-span-5 flex flex-col items-center text-center p-4 bg-slate-900/50 rounded-xl border border-slate-800/80">
+            <div id="planetGraphicBox" class="w-40 h-40 md:w-52 md:h-52 rounded-full relative flex items-center justify-center mb-5 transition-transform duration-500">
+              <!-- Planet visual rendered via radial gradient -->
+            </div>
+            <h3 id="planetNameAr" class="text-2xl md:text-3xl font-extrabold text-white font-cairo mb-1">كوكب الأرض</h3>
+            <span id="planetNameEn" class="text-xs font-mono text-cyan-400 uppercase tracking-widest mb-3">Planet Earth (Terra)</span>
+            <p id="planetSummary" class="text-xs md:text-sm text-slate-300 leading-relaxed text-right">
+              واحتنا الزرقاء المفعمة بالحياة، الجرم الوحيد المؤكد وجود الماء السائل والحياة عليه في الكون المعروف، محمي بغلاف جوي متوازن ومجال مغناطيسي قوي.
+            </p>
+          </div>
+
+          <!-- Scientific Metrics & Gravity Calculator (7 cols) -->
+          <div class="lg:col-span-7 flex flex-col gap-6">
+            <!-- 6 Metrics Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                <span class="block text-[11px] text-slate-400">القطر الاستوائي</span>
+                <span id="metricDiameter" class="text-base md:text-lg font-bold font-mono text-white tabular-nums">12,742 كم</span>
+              </div>
+              <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                <span class="block text-[11px] text-slate-400">البعد عن الشمس</span>
+                <span id="metricDistance" class="text-base md:text-lg font-bold font-mono text-cyanGlow tabular-nums">1.00 AU (149.6M كم)</span>
+              </div>
+              <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                <span class="block text-[11px] text-slate-400">درجة الحرارة</span>
+                <span id="metricTemp" class="text-base md:text-lg font-bold font-mono text-goldGlow tabular-nums">15°م</span>
+              </div>
+              <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                <span class="block text-[11px] text-slate-400">طول السنة</span>
+                <span id="metricPeriod" class="text-base md:text-lg font-bold font-mono text-white tabular-nums">365.25 يوم</span>
+              </div>
+              <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                <span class="block text-[11px] text-slate-400">الجاذبية السطحية (g)</span>
+                <span id="metricGravity" class="text-base md:text-lg font-bold font-mono text-emerald-400 tabular-nums">9.80 m/s²</span>
+              </div>
+              <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                <span class="block text-[11px] text-slate-400">الأقمار المعروفة</span>
+                <span id="metricMoons" class="text-base md:text-lg font-bold font-mono text-white tabular-nums">1 (القمر)</span>
+              </div>
+            </div>
+
+            <!-- Deep Scientific Insight / Challenge for Talent Students -->
+            <div class="p-4 rounded-xl bg-violet-950/20 border border-violet-800/40 text-right">
+              <div class="flex items-center gap-2 mb-1.5">
+                <span class="text-base">💡</span>
+                <h4 class="text-sm font-bold text-violet-300 font-cairo">تحدي التفكير العلمي لطالبات موهبة:</h4>
+              </div>
+              <p id="planetFactInsight" class="text-xs md:text-sm text-slate-300 leading-relaxed">
+                لماذا يحافظ الغلاف الجوي للأرض على كثافته واستقراره بينما فقده المريخ تدريجياً؟ يرجع ذلك إلى حركة النواة الحديدية السائلة للأرض وتوليدها الدينامو المغناطيسي الذي يصد الرياح الشمسية الحارقة.
+              </p>
+            </div>
+
+            <!-- GRAVITY CALCULATOR: Student's Weight on Planet -->
+            <div class="p-4 rounded-xl bg-slate-900/70 border border-cyan-500/30 text-right">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+                <div>
+                  <h4 class="text-sm font-bold text-cyan-300 font-cairo">حاسبة الوزن والجاذبية الكوكبية</h4>
+                  <p class="text-[11px] text-slate-400">أدخلي وزنك على الأرض (بالكيلوجرام) لترين كم سيصبح على هذا الكوكب!</p>
+                </div>
+                <!-- Input field -->
+                <div class="flex items-center gap-2">
+                  <label for="studentWeightInput" class="text-xs text-slate-300 whitespace-nowrap">وزنك على الأرض:</label>
+                  <input type="number" id="studentWeightInput" value="50" min="20" max="200" oninput="calculateWeightOnPlanet()" class="w-20 px-2.5 py-1 text-sm font-mono text-center bg-slate-950 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-cyan-400" />
+                  <span class="text-xs text-slate-400 font-mono">كجم</span>
+                </div>
+              </div>
+
+              <!-- Computed Result Ribbon -->
+              <div class="flex flex-col sm:flex-row items-center justify-between gap-3 p-3 bg-slate-950/80 rounded-lg border border-slate-800">
+                <div class="flex items-baseline gap-2">
+                  <span class="text-xs text-slate-400">وزنك التقديري هنا:</span>
+                  <span id="calculatedWeightVal" class="text-2xl font-black font-mono text-cyanGlow tabular-nums">50.0</span>
+                  <span class="text-xs font-mono text-cyan-300">كجم</span>
+                  <span id="weightRatioBadge" class="text-[11px] px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800 mr-2 font-mono">100% من وزنك</span>
+                </div>
+                <p id="weightPhysicExplanation" class="text-[11px] md:text-xs text-slate-300 text-right sm:max-w-xs">
+                  هذا هو معيار الجاذبية القياسي للأرض (1.00g).
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 3: SAUDI IN SPACE SPOTLIGHT -->
+      <section id="saudi-space" class="py-12 px-4 md:px-8 max-w-7xl mx-auto">
+        <div class="text-center max-w-3xl mx-auto mb-10">
+          <div class="flex items-center justify-center gap-2 text-xs text-emerald-400 font-semibold mb-2">
+            <span>وكالة الفضاء السعودية (SSA)</span>
+            <span aria-hidden="true">·</span>
+            <span>رؤية المملكة 2030</span>
+            <span aria-hidden="true">·</span>
+            <span>برنامج رواد الفضاء</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-white font-cairo mb-3">
+            المملكة نحو الفضاء: طموحٌ يعانق عنان السماء
+          </h2>
+          <p class="text-xs sm:text-base text-slate-300 leading-relaxed">
+            محطات وطنية مضيئة من رحلة الأمير سلطان بن سلمان عام 1985 إلى صعود ريانة برناوي وعلي القرني لمحطة الفضاء الدولية (ISS)، مسيرة تلهم فتيات الوطن نحو القيادة في أبحاث العلوم المتقدمة.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <!-- Card 1: Rayyanah Barnawi -->
+          <div class="glass-card rounded-2xl p-6 border border-slate-800 glass-card-hover flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-pink-500/10 border border-pink-500/30 flex items-center justify-center text-pink-400 mb-4 text-xl">
+                🧬
+              </div>
+              <div class="text-xs text-pink-400 font-semibold mb-1">أول رائدة فضاء سعودية وعربية مسلمة</div>
+              <h3 class="text-xl font-bold text-white font-cairo mb-2">ريانة برناوي</h3>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-4">
+                أخصائية أبحاث الخلايا الجذعية، صعدت لمحطة الفضاء الدولية (ISS) ضمن مهمة Ax-2 التاريخية في مايو 2023. أجرت 14 تجربة بحثية حيوية في بيئة الجاذبية الصغرى لدراسة الخلايا المناعية والتهابات الدماغ وسرطان الثدي.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-slate-800/80 text-xs text-slate-400 flex items-center justify-between">
+              <span>المهمة: Ax-2 (ISS)</span>
+              <span class="text-pink-300 font-medium">مايو 2023م</span>
+            </div>
+          </div>
+
+          <!-- Card 2: Ali AlQarni -->
+          <div class="glass-card rounded-2xl p-6 border border-slate-800 glass-card-hover flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mb-4 text-xl">
+                🚀
+              </div>
+              <div class="text-xs text-cyan-400 font-semibold mb-1">رائد فضاء وطيار مقاتل سعودي</div>
+              <h3 class="text-xl font-bold text-white font-cairo mb-2">علي القرني</h3>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-4">
+                نفذ تجارب علمية متقدمة في فيزياء الموائع والاستمطار الاصطناعي في بيئة الجاذبية الصغرى، وشارك في بث تجارب تفاعلية مباشرة مع أكثر من 12,000 طالب وطالبة في مدارس المملكة عبر الاتصال اللاسلكي.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-slate-800/80 text-xs text-slate-400 flex items-center justify-between">
+              <span>المهمة: Ax-2 (ISS)</span>
+              <span class="text-cyan-300 font-medium">مايو 2023م</span>
+            </div>
+          </div>
+
+          <!-- Card 3: Prince Sultan bin Salman -->
+          <div class="glass-card rounded-2xl p-6 border border-slate-800 glass-card-hover flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-4 text-xl">
+                🛰️
+              </div>
+              <div class="text-xs text-amber-400 font-semibold mb-1">أول رائد فضاء عربي ومسلم</div>
+              <h3 class="text-xl font-bold text-white font-cairo mb-2">الأمير سلطان بن سلمان</h3>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-4">
+                انطلق على متن مكوك الفضاء ديسكفري (STS-51-G) عام 1985، وأشرف على إطلاق القمر الصناعي العربي (عرب سات 1B)، مسجلاً البصمة الأولى للمملكة والعالم العربي والإسلامي في الفضاء الخارجي.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-slate-800/80 text-xs text-slate-400 flex items-center justify-between">
+              <span>المكوك: Discovery</span>
+              <span class="text-amber-300 font-medium">يونيو 1985م</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Vision 2030 Strategic Card -->
+        <div class="glass-card rounded-2xl p-6 md:p-8 border border-emerald-500/20 bg-gradient-to-r from-emerald-950/30 via-slate-900/60 to-cyan-950/30 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div class="text-right">
+            <span class="text-xs font-semibold text-emerald-400 mb-1 block">رؤية السعودية 2030 ومستقبل الفضاء</span>
+            <h4 class="text-lg md:text-xl font-bold text-white font-cairo mb-2">استراتيجية الفضاء وتمكين المرأة السعودية في قطاعات STEM</h4>
+            <p class="text-xs md:text-sm text-slate-300 max-w-2xl leading-relaxed">
+              تستهدف وكالة الفضاء السعودية تحويل المملكة إلى مركز إقليمي ودولي لاقتصاد وتقنيات الفضاء، والاستثمار في العقول الوطنية الشابة، لتمكين طالبات الموهبة من قيادة مختبرات الأبحاث الفلكية وتطوير أنظمة الأقمار الصناعية المستقبلية.
+            </p>
+          </div>
+          <div class="flex-shrink-0">
+            <a href="#quiz" class="px-5 py-2.5 text-xs md:text-sm font-bold text-slate-900 bg-emerald-400 hover:bg-emerald-300 rounded-xl transition-all shadow-lg shadow-emerald-400/20 whitespace-nowrap block text-center">
+              اختبري معلوماتك الفضائية ←
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 4: COSMIC QUIZ / CHALLENGE -->
+      <section id="quiz" class="py-12 px-4 md:px-8 max-w-4xl mx-auto">
+        <div class="glass-card rounded-2xl p-6 md:p-8 border border-slate-800">
+          
+          <div class="text-center mb-8">
+            <div class="flex items-center justify-center gap-2 text-xs text-cyan-400 font-semibold mb-2">
+              <span>تحدي رائدات الفضاء</span>
+              <span aria-hidden="true">·</span>
+              <span>فصل موهبة - فيزياء ثاني ثانوي</span>
+            </div>
+            <h2 class="text-2xl md:text-3xl font-extrabold text-white font-cairo mb-2">
+              تحدي المعرفة الفيزيائية والفلكية
+            </h2>
+            <p class="text-xs md:text-sm text-slate-400">
+              3 أسئلة تفاعلية ذكية تقيس فهمك العميق لقوانين كبلر والجاذبية وظواهر الفضاء المذهلة!
+            </p>
+          </div>
+
+          <!-- Quiz Container -->
+          <div id="quizApp">
+            <!-- Progress indicator -->
+            <div class="flex items-center justify-between text-xs text-slate-400 mb-2">
+              <span id="quizStepText">السؤال 1 من 3</span>
+              <span id="quizScorePreview" class="text-cyan-400 font-mono">النقاط: 0/3</span>
+            </div>
+            <!-- Progress Bar -->
+            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden mb-6">
+              <div id="quizProgressBar" class="h-full bg-gradient-to-r from-cyan-500 to-indigo-500 w-1/3 transition-all duration-300"></div>
+            </div>
+
+            <!-- Question Card -->
+            <div id="quizQuestionBox" class="text-right">
+              <h3 id="quizQuestionTitle" class="text-base sm:text-lg font-bold text-white font-cairo mb-4 leading-relaxed">
+                <!-- Question injected via JS -->
+              </h3>
+
+              <!-- Options List -->
+              <div id="quizOptionsList" class="flex flex-col gap-3 mb-5">
+                <!-- Options injected via JS -->
+              </div>
+
+              <!-- Explanation Box (Appears after answer) -->
+              <div id="quizExplanationBox" class="hidden p-4 rounded-xl border text-xs sm:text-sm leading-relaxed mb-5">
+                <!-- Explanation text injected via JS -->
+              </div>
+
+              <!-- Next Button -->
+              <div class="flex justify-end">
+                <button id="quizNextBtn" onclick="nextQuizQuestion()" class="hidden px-5 py-2 text-xs sm:text-sm font-bold text-slate-900 bg-cyan-400 hover:bg-cyan-300 rounded-lg transition-colors">
+                  السؤال التالي ←
+                </button>
+              </div>
+            </div>
+
+            <!-- Quiz Result View (Hidden initially) -->
+            <div id="quizResultBox" class="hidden text-center py-6">
+              <div class="text-5xl mb-4" id="resultEmoji">🌟</div>
+              <h3 class="text-2xl font-extrabold text-white font-cairo mb-2" id="resultTitle">مبارك! تفوق علمي باهر</h3>
+              <p class="text-sm text-slate-300 max-w-md mx-auto mb-5 leading-relaxed" id="resultDesc">
+                لقد أجبتِ على جميع الأسئلة بدقة علمية متناهية تليق بطالبة موهوبة تمثل مستقبل المملكة في علوم الفلك والفضاء.
+              </p>
+              
+              <div class="inline-block p-4 rounded-xl bg-slate-900/80 border border-cyan-500/30 mb-6">
+                <span class="block text-xs text-slate-400">درجتك النهائية:</span>
+                <span id="finalScoreDisplay" class="text-3xl font-extrabold font-mono text-cyanGlow">3 / 3</span>
+              </div>
+
+              <div class="flex items-center justify-center gap-3">
+                <button onclick="restartQuiz()" class="px-5 py-2 text-xs sm:text-sm font-semibold text-white bg-slate-800 hover:bg-slate-700 rounded-lg border border-slate-700 transition-colors">
+                  إعادة المحاولة ⟲
+                </button>
+                <a href="#credits" class="px-5 py-2 text-xs sm:text-sm font-bold text-slate-900 bg-cyan-400 hover:bg-cyan-300 rounded-lg transition-colors">
+                  شهادة الاعتماد المدرسي ←
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- SECTION 5: OFFICIAL INSTITUTIONAL FOOTER -->
+    <footer id="credits" class="mt-16 border-t border-slate-800/80 bg-slate-950/90 py-12 px-4 md:px-8">
+      <div class="max-w-6xl mx-auto">
+        
+        <!-- Distinguished Presentation Card -->
+        <div class="glass-card rounded-2xl p-6 md:p-10 border border-slate-800 shadow-2xl relative overflow-hidden mb-8">
+          
+          <div class="absolute -top-24 -left-24 w-60 h-60 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+          <div class="absolute -bottom-24 -right-24 w-60 h-60 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+          <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 text-right">
+            
+            <!-- Student & Supervisor Attribution -->
+            <div class="flex-1 space-y-4">
+              <div class="flex items-center gap-2 text-xs text-cyan-400 font-semibold">
+                <span>المملكة العربية السعودية</span>
+                <span aria-hidden="true">·</span>
+                <span>وزارة التعليم</span>
+                <span aria-hidden="true">·</span>
+                <span>أسبوع الفضاء العالمي</span>
+              </div>
+
+              <h3 class="text-xl sm:text-2xl font-black text-white font-cairo">
+                مشروع المحاكاة الفلكية التفاعلية
+              </h3>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                <!-- Student Card -->
+                <div class="p-3.5 rounded-xl bg-slate-900/80 border border-cyan-500/20">
+                  <span class="block text-[11px] text-cyan-300 font-medium">مشاركة الطالبة:</span>
+                  <span class="text-base md:text-lg font-bold text-white font-cairo block mt-0.5">
+                    جوان بنت سعد آل بوعينين
+                  </span>
+                  <span class="text-xs text-slate-400 block mt-0.5">
+                    الصف: ثاني ثانوي - فصل موهبة
+                  </span>
+                </div>
+
+                <!-- Teacher / Supervisor Card -->
+                <div class="p-3.5 rounded-xl bg-slate-900/80 border border-purple-500/20">
+                  <span class="block text-[11px] text-purple-300 font-medium">إشراف المعلمة الفاضلة:</span>
+                  <span class="text-base md:text-lg font-bold text-white font-cairo block mt-0.5">
+                    أ. رحمة اليامي
+                  </span>
+                 
+                </div>
+              </div>
+
+              <p class="text-xs sm:text-sm text-slate-400 leading-relaxed pt-1">
+                "العلم ليس مجرد نظريات في الكتب، بل هو شغف يبدأ من مقاعد الدراسة ليصنع رواداً ومبتكرات يرفعن راية الوطن في أعالي الفضاء."
+              </p>
+            </div>
+
+            <!-- Official Seal & Quick Actions -->
+            <div class="flex flex-col items-center gap-4 border-t md:border-t-0 md:border-r border-slate-800 pt-6 md:pt-0 md:pr-8">
+              <div class="w-20 h-20 rounded-2xl bg-gradient-to-tr from-cyan-950 via-slate-900 to-indigo-950 border border-cyan-500/30 flex items-center justify-center shadow-lg text-3xl">
+                🌌
+              </div>
+              <div class="text-center">
+                <span class="text-xs font-bold text-white font-cairo block">أسبوع الفضاء العالمي</span>
+                <span class="text-[10px] text-slate-400 font-mono">World Space Week</span>
+              </div>
+              
+              <div class="flex items-center gap-2">
+                <button onclick="copyProjectLink()" class="px-3.5 py-1.5 text-xs font-semibold text-slate-300 bg-slate-800 hover:bg-slate-700 rounded-lg border border-slate-700 transition-colors flex items-center gap-1.5">
+                  <span id="copyLinkIcon">🔗</span>
+                  <span id="copyLinkText">مشاركة الرابط</span>
+                </button>
+                <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="px-3.5 py-1.5 text-xs font-semibold text-cyan-300 bg-cyan-950 hover:bg-cyan-900 rounded-lg border border-cyan-800 transition-colors">
+                  أعلى الصفحة ↑
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Quiet Bottom Disclaimer -->
+        <div class="text-center text-xs text-slate-500 flex flex-wrap items-center justify-center gap-2">
+          
+          <span>مدرسة فاطمة بنت المنذر الثانوية</span>
+          <span aria-hidden="true">·</span>
+          <span>المملكة العربية السعودية 🇸🇦</span>
+        </div>
+
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- SCRIPT LOGIC (Solar Simulation, Celestial Data, Quiz, Audio) -->
+  <script>
+    /* =========================================================
+       1. CELESTIAL BODIES DATASET
+       ========================================================= */
+    const CELESTIAL_BODIES = [
+      {
+        id: 'sun',
+        nameAr: 'الشمس',
+        nameEn: 'The Sun (Sol)',
+        type: 'نجم قزم أصفر (G2V)',
+        color: '#F59E0B',
+        accentGlow: 'rgba(245, 158, 11, 0.8)',
+        diameter: '1,392,700 كم',
+        distance: '0 AU (مركز النظام)',
+        temp: '5,500°م (السطح) / 15M°م (اللب)',
+        period: '230 مليون سنة (حول المجرة)',
+        gravity: 274.0, // m/s^2
+        moons: '8 كواكب رئيسية وملايين الكويكبات',
+        summary: 'نجمنا الأم ومصدر الطاقة والحياة في النظام الشمسي، تشكل كتلتها 99.86% من إجمالي كتلة النظام الشمسي بالكامل وتعمل باندماج الهيدروجين إلى هيليوم.',
+        insight: 'يستغرق الفوتون الضوئي المتولد في قلب الشمس ما بين 10,000 إلى 100,000 عام حتى يشق طريقه ويخرج إلى السطح، بينما يستغرق 8 دقائق و20 ثانية فقط ليصل للأرض!',
+        radiusSim: 14,
+        orbitDist: 0,
+        speedSim: 0
+      },
+      {
+        id: 'mercury',
+        nameAr: 'عطارد',
+        nameEn: 'Mercury',
+        type: 'كوكب صخري داخلي',
+        color: '#94A3B8',
+        accentGlow: 'rgba(148, 163, 184, 0.6)',
+        diameter: '4,879 كم',
+        distance: '0.39 AU (57.9M كم)',
+        temp: '-180°م ليلاً إلى 430°م نهاراً',
+        period: '88 يوماً أرضياً',
+        gravity: 3.7,
+        moons: '0',
+        summary: 'أصغر كواكب المجموعة وأقربها للشمس، سطحه مليء بالفوهات النيزكية الشبيهة بالقمر ويفتقر لغلاف جوي حقيقي يحفظ درجات حرارته.',
+        insight: 'عطارد يمتلك أعلى تباين حراري في النظام الشمسي؛ إذ ينخفض إلى -180°م في الليل ويرتفع إلى 430°م في النهار لانعدام الغلاف الجوي العازل.',
+        radiusSim: 4,
+        orbitDist: 34,
+        speedSim: 4.15
+      },
+      {
+        id: 'venus',
+        nameAr: 'الزهرة',
+        nameEn: 'Venus',
+        type: 'كوكب صخري دفيء',
+        color: '#FBBF24',
+        accentGlow: 'rgba(251, 191, 36, 0.6)',
+        diameter: '12,104 كم',
+        distance: '0.72 AU (108.2M كم)',
+        temp: '465°م (أكثر الكواكب حرارة)',
+        period: '224.7 يوماً أرضياً',
+        gravity: 8.87,
+        moons: '0',
+        summary: 'توأم الأرض في الحجم، لكنه جحيم ملتهب بسبب غلافه الجوي الفائق الكثافة المكون من ثاني أكسيد الكربون وسحب حمض الكبريتيك.',
+        insight: 'يوم الزهرة أطول من سنته! يستغرق دورانه حول نفسه 243 يوماً أرضياً، ويدور بعكس اتجاه عقارب الساعة (شروق الشمس من الغرب).',
+        radiusSim: 6,
+        orbitDist: 50,
+        speedSim: 1.62
+      },
+      {
+        id: 'earth',
+        nameAr: 'الأرض',
+        nameEn: 'Earth (Terra)',
+        type: 'كوكب صخري مائي',
+        color: '#38BDF8',
+        accentGlow: 'rgba(56, 189, 248, 0.8)',
+        diameter: '12,742 كم',
+        distance: '1.00 AU (149.6M كم)',
+        temp: '15°م (متوسط السطح)',
+        period: '365.25 يوماً',
+        gravity: 9.80,
+        moons: '1 (القمر)',
+        summary: 'موطن الحياة ودرة التاج الكونية، يمتاز بغلاف جوي غني بالأكسجين ومحيطات مائية سائلة ومجال مغناطيسي يحمي الكائنات الحية.',
+        insight: 'سرعة دوران الأرض حول الشمس تبلغ 107,000 كم/ساعة! هذا يعني أننا نقطع في الفضاء مسافة 2.6 مليون كيلومتر كل 24 ساعة دون أن نشعر بذلك بفضل القصور الذاتي.',
+        radiusSim: 6.5,
+        orbitDist: 70,
+        speedSim: 1.00
+      },
+      {
+        id: 'mars',
+        nameAr: 'المريخ',
+        nameEn: 'Mars',
+        type: 'الكوكب الأحمر الصخري',
+        color: '#F87171',
+        accentGlow: 'rgba(248, 113, 113, 0.7)',
+        diameter: '6,779 كم',
+        distance: '1.52 AU (227.9M كم)',
+        temp: '-63°م (متوسط السطح)',
+        period: '687 يوماً أرضياً',
+        gravity: 3.72,
+        moons: '2 (فوبوس وديموس)',
+        summary: 'الكوكب الأحمر المتألق بأكسيد الحديد، يحتوي على بركان أوليمبوس مونس الأضخم في النظام الشمسي ووديان مارينر السحيقة، ومحط أطماع البشر للاستيطان المستقبلي.',
+        insight: 'يضم المريخ بركان "أوليمبوس مونس" الذي يصل ارتفاعه إلى 22 كيلومتراً، أي ما يقارب 3 أضعاف ارتفاع قمة إيفرست!',
+        radiusSim: 5,
+        orbitDist: 92,
+        speedSim: 0.53
+      },
+      {
+        id: 'jupiter',
+        nameAr: 'المشتري',
+        nameEn: 'Jupiter',
+        type: 'عملاق غازي',
+        color: '#FB923C',
+        accentGlow: 'rgba(251, 146, 60, 0.7)',
+        diameter: '139,820 كم',
+        distance: '5.20 AU (778.5M كم)',
+        temp: '-110°م (الطبقة السحابية)',
+        period: '11.86 سنة أرضية',
+        gravity: 24.79,
+        moons: '95 قمراً معتمداً',
+        summary: 'عملاق النظام الشمسي وأكبر كواكبه، تتسع كتلته لجميع الكواكب مجتمعة بمرتين ونصف، ويمتلك البقعة الحمراء العظيمة وهي عاصفة هائلة تدور منذ مئات السنين.',
+        insight: 'المشتري يعمل كـ "مكنسة فلكية" للنظام الشمسي؛ إذ تجذب جاذبيته الجبارة المذنبات والكويكبات الشاردة فتحمي كوكب الأرض من الاصطدامات الكارثية.',
+        radiusSim: 11,
+        orbitDist: 122,
+        speedSim: 0.24
+      },
+      {
+        id: 'saturn',
+        nameAr: 'زحل',
+        nameEn: 'Saturn',
+        type: 'عملاق غازي ذو حلقات',
+        color: '#FDE047',
+        accentGlow: 'rgba(253, 224, 71, 0.7)',
+        diameter: '116,460 كم',
+        distance: '9.58 AU (1.43B كم)',
+        temp: '-140°م',
+        period: '29.45 سنة أرضية',
+        gravity: 10.44,
+        moons: '146 قمراً معتمداً',
+        summary: 'أيقونة الجمال الفلكي بحلقاته الجليدية والصخرية المبهرة الممتدة لمئات آلاف الكيلومترات بسماكة لا تتعدى 10 إلى 100 متر.',
+        insight: 'كثافة زحل أقل من كثافة الماء! لو وجد حوض ماء عملاق بما يكفي ليتسع لزحل لطفا فوق سطحه ككرة الشاطئ.',
+        radiusSim: 9.5,
+        orbitDist: 152,
+        speedSim: 0.17
+      },
+      {
+        id: 'uranus',
+        nameAr: 'أورانوس',
+        nameEn: 'Uranus',
+        type: 'عملاق جليدي مائل',
+        color: '#67E8F9',
+        accentGlow: 'rgba(103, 232, 249, 0.6)',
+        diameter: '50,724 كم',
+        distance: '19.2 AU (2.87B كم)',
+        temp: '-195°م',
+        period: '84 سنة أرضية',
+        gravity: 8.69,
+        moons: '28 قمراً',
+        summary: 'العملاق الجليدي المائل بزاوية 98 درجة كأنه يتدحرج على مداره، غني بالماء والميثان والأمونيا المتجمدة.',
+        insight: 'بسبب ميلانه الشديد، يقضي قطب أورانوس 42 عاماً متواصلة في ضوء الشمس يليه 42 عاماً في ظلام دامس!',
+        radiusSim: 7.5,
+        orbitDist: 180,
+        speedSim: 0.12
+      },
+      {
+        id: 'neptune',
+        nameAr: 'نبتون',
+        nameEn: 'Neptune',
+        type: 'عملاق جليدي عاصف',
+        color: '#3B82F6',
+        accentGlow: 'rgba(59, 130, 246, 0.7)',
+        diameter: '49,244 كم',
+        distance: '30.1 AU (4.50B كم)',
+        temp: '-200°م',
+        period: '164.8 سنة أرضية',
+        gravity: 11.15,
+        moons: '16 قمراً',
+        summary: 'أبعد كواكب المجموعة الشمسية الرسمية، يمتاز بلونه الأزرق العميق الناتج عن الميثان ورياحه الأسرع في النظام الشمسي بسرعة تتجاوز 2,100 كم/س.',
+        insight: 'منذ اكتشافه عام 1846، لم يُكمل نبتون دورته المدارية الأولى حول الشمس إلا في عام 2011م (بعد 165 عاماً أرضياً)!',
+        radiusSim: 7.5,
+        orbitDist: 206,
+        speedSim: 0.06
+      },
+      {
+        id: 'orion',
+        nameAr: 'سديم الجبار',
+        nameEn: 'Orion Nebula (M42)',
+        type: 'سديم انبعاثي ونجمي حضانة',
+        color: '#EC4899',
+        accentGlow: 'rgba(236, 72, 153, 0.8)',
+        diameter: '24 سنة ضوئية',
+        distance: '1,344 سنة ضوئية عن الأرض',
+        temp: '10,000 كلفن (الغاز المتأين)',
+        period: 'حضانة كونية لتولد النجوم',
+        gravity: 0.01,
+        moons: 'يحتوي على مئات النجوم الفتية',
+        summary: 'واحدة من أشهر الحواضن النجمية في مجرتنا درب التبانة، حيث تولد النجوم الجديدة وأنظمة الكواكب من سحب الغاز والغبار الكوني المتأين.',
+        insight: 'سديم الجبار مضيء لدرجة إمكانية رؤيته بالعين المجردة في الليالي الصافية أسفل حزام كوكبة الجبار الشهيرة!',
+        radiusSim: 12,
+        orbitDist: 236,
+        speedSim: 0.03
+      },
+      {
+        id: 'andromeda',
+        nameAr: 'مجرة أندروميدا',
+        nameEn: 'Andromeda Galaxy (M31)',
+        type: 'مجرة حلزونية عملاقة',
+        color: '#A855F7',
+        accentGlow: 'rgba(168, 85, 247, 0.8)',
+        diameter: '220,000 سنة ضوئية',
+        distance: '2.537 مليون سنة ضوئية',
+        temp: 'متفاوتة حسب التوزيع النجمي',
+        period: 'تتجه نحو درب التبانة',
+        gravity: 1.0,
+        moons: 'تحوي أكثر من تريليون نجم',
+        summary: 'أقرب مجرة حلزونية كبرى لمجرتنا درب التبانة، وتضم أكثر من تريليون نجم، وتتحرك باتجاهنا في مسار تصادمي مذهل سيندمج بعد نحو 4.5 مليار عام.',
+        insight: 'الضوء الذي نراه الليلة من مجرة أندروميدا انطلق منها قبل 2.5 مليون سنة، أي قبل ظهور الحضارات البشرية على الأرض!',
+        radiusSim: 13,
+        orbitDist: 260,
+        speedSim: 0.02
+      }
+    ];
+
+    let currentSelectedPlanet = CELESTIAL_BODIES[3]; // Default: Earth
+
+    /* =========================================================
+       2. SOLAR SYSTEM CANVAS SIMULATION ENGINE
+       ========================================================= */
+    const canvas = document.getElementById('solarCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let simPlaying = true;
+    let simSpeedMultiplier = 1;
+    let showOrbits = true;
+    let showLabels = true;
+
+    // Viewport camera transform
+    let camera = {
+      x: 0,
+      y: 0,
+      zoom: 1.0,
+      targetZoom: 1.0,
+      isDragging: false,
+      startX: 0,
+      startY: 0
+    };
+
+    // Asteroid belt particles
+    const asteroids = [];
+    const ASTEROID_COUNT = 180;
+    for (let i = 0; i < ASTEROID_COUNT; i++) {
+      asteroids.push({
+        angle: Math.random() * Math.PI * 2,
+        dist: 104 + Math.random() * 12,
+        size: Math.random() * 1.5 + 0.5,
+        speed: (Math.random() * 0.2 + 0.3) * 0.005,
+        color: Math.random() > 0.5 ? '#64748B' : '#94A3B8'
+      });
+    }
+
+    function resizeCanvas() {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    const planetState = CELESTIAL_BODIES.map((body, idx) => ({
+      ...body,
+      angle: (idx * (Math.PI * 2 / CELESTIAL_BODIES.length)) + Math.random()
+    }));
+
+    let lastTime = performance.now();
+    function animateSimulation(time) {
+      const dt = (time - lastTime) / 1000;
+      lastTime = time;
+
+      const rect = canvas.getBoundingClientRect();
+      const width = rect.width;
+      const height = rect.height;
+
+      ctx.clearRect(0, 0, width, height);
+
+      // Smooth zoom interpolation
+      camera.zoom += (camera.targetZoom - camera.zoom) * 0.1;
+
+      ctx.save();
+      ctx.translate(width / 2 + camera.x, height / 2 + camera.y);
+      ctx.scale(camera.zoom, camera.zoom);
+
+      // Sun Glow
+      const sunGradient = ctx.createRadialGradient(0, 0, 5, 0, 0, 42);
+      sunGradient.addColorStop(0, 'rgba(251, 191, 36, 1)');
+      sunGradient.addColorStop(0.3, 'rgba(245, 158, 11, 0.8)');
+      sunGradient.addColorStop(0.7, 'rgba(234, 88, 12, 0.2)');
+      sunGradient.addColorStop(1, 'rgba(234, 88, 12, 0)');
+      ctx.fillStyle = sunGradient;
+      ctx.beginPath();
+      ctx.arc(0, 0, 42, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Orbits
+      if (showOrbits) {
+        planetState.forEach(p => {
+          if (p.orbitDist > 0) {
+            ctx.beginPath();
+            ctx.strokeStyle = p.id === currentSelectedPlanet.id ? 'rgba(56, 189, 248, 0.45)' : 'rgba(255, 255, 255, 0.08)';
+            ctx.lineWidth = p.id === currentSelectedPlanet.id ? 1.5 : 1;
+            if (p.id === currentSelectedPlanet.id) ctx.setLineDash([4, 4]);
+            else ctx.setLineDash([]);
+            ctx.arc(0, 0, p.orbitDist, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.setLineDash([]);
+          }
+        });
+      }
+
+      // Asteroid Belt
+      asteroids.forEach(ast => {
+        if (simPlaying) ast.angle += ast.speed * simSpeedMultiplier;
+        const ax = Math.cos(ast.angle) * ast.dist;
+        const ay = Math.sin(ast.angle) * ast.dist;
+        ctx.fillStyle = ast.color;
+        ctx.beginPath();
+        ctx.arc(ax, ay, ast.size, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      // Planets
+      planetState.forEach(p => {
+        if (p.orbitDist > 0 && simPlaying) {
+          p.angle += (p.speedSim * 0.015) * simSpeedMultiplier * (dt * 60);
+        }
+
+        const px = Math.cos(p.angle) * p.orbitDist;
+        const py = Math.sin(p.angle) * p.orbitDist;
+
+        p.currentX = px;
+        p.currentY = py;
+
+        // Glow
+        const glow = ctx.createRadialGradient(px, py, p.radiusSim * 0.4, px, py, p.radiusSim * 2.2);
+        glow.addColorStop(0, p.accentGlow || 'rgba(255,255,255,0.4)');
+        glow.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = glow;
+        ctx.beginPath();
+        ctx.arc(px, py, p.radiusSim * 2.2, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Planet body
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.arc(px, py, p.radiusSim, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Saturn Rings
+        if (p.id === 'saturn') {
+          ctx.save();
+          ctx.translate(px, py);
+          ctx.rotate(0.35);
+          ctx.beginPath();
+          ctx.ellipse(0, 0, p.radiusSim * 2.2, p.radiusSim * 0.7, 0, 0, Math.PI * 2);
+          ctx.strokeStyle = 'rgba(253, 224, 71, 0.6)';
+          ctx.lineWidth = 3;
+          ctx.stroke();
+          ctx.restore();
+        }
+
+        // Earth Moon
+        if (p.id === 'earth') {
+          const mDist = 12;
+          const mAngle = (time * 0.003);
+          const mx = px + Math.cos(mAngle) * mDist;
+          const my = py + Math.sin(mAngle) * mDist;
+          ctx.fillStyle = '#CBD5E1';
+          ctx.beginPath();
+          ctx.arc(mx, my, 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Selection Indicator
+        if (p.id === currentSelectedPlanet.id) {
+          ctx.beginPath();
+          ctx.arc(px, py, p.radiusSim + 5, 0, Math.PI * 2);
+          ctx.strokeStyle = '#38BDF8';
+          ctx.lineWidth = 1.5;
+          ctx.setLineDash([3, 3]);
+          ctx.stroke();
+          ctx.setLineDash([]);
+        }
+
+        // Labels
+        if (showLabels) {
+          ctx.fillStyle = p.id === currentSelectedPlanet.id ? '#38BDF8' : '#94A3B8';
+          ctx.font = '11px Tajawal, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText(p.nameAr, px, py + p.radiusSim + 14);
+        }
+      });
+
+      ctx.restore();
+      requestAnimationFrame(animateSimulation);
+    }
+    requestAnimationFrame(animateSimulation);
+
+    // Mouse & Touch Controls
+    canvas.addEventListener('mousedown', (e) => {
+      camera.isDragging = true;
+      camera.startX = e.clientX - camera.x;
+      camera.startY = e.clientY - camera.y;
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (camera.isDragging) {
+        camera.x = e.clientX - camera.startX;
+        camera.y = e.clientY - camera.startY;
+      }
+      handleCanvasHover(e);
+    });
+
+    window.addEventListener('mouseup', () => {
+      camera.isDragging = false;
+    });
+
+    canvas.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const zoomFactor = e.deltaY < 0 ? 1.15 : 0.87;
+      camera.targetZoom = Math.min(Math.max(camera.targetZoom * zoomFactor, 0.4), 3.5);
+    }, { passive: false });
+
+    // Touch Support
+    let touchStartDist = 0;
+    canvas.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) {
+        camera.isDragging = true;
+        camera.startX = e.touches[0].clientX - camera.x;
+        camera.startY = e.touches[0].clientY - camera.y;
+      } else if (e.touches.length === 2) {
+        touchStartDist = Math.hypot(
+          e.touches[0].clientX - e.touches[1].clientX,
+          e.touches[0].clientY - e.touches[1].clientY
+        );
+      }
+    });
+
+    canvas.addEventListener('touchmove', (e) => {
+      if (e.touches.length === 1 && camera.isDragging) {
+        camera.x = e.touches[0].clientX - camera.startX;
+        camera.y = e.touches[0].clientY - camera.startY;
+      } else if (e.touches.length === 2) {
+        const dist = Math.hypot(
+          e.touches[0].clientX - e.touches[1].clientX,
+          e.touches[0].clientY - e.touches[1].clientY
+        );
+        const factor = dist / touchStartDist;
+        camera.targetZoom = Math.min(Math.max(camera.targetZoom * (factor > 1 ? 1.05 : 0.95), 0.4), 3.5);
+        touchStartDist = dist;
+      }
+    });
+
+    canvas.addEventListener('touchend', () => {
+      camera.isDragging = false;
+    });
+
+    canvas.addEventListener('click', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left - (rect.width / 2 + camera.x);
+      const mouseY = e.clientY - rect.top - (rect.height / 2 + camera.y);
+      const scaledX = mouseX / camera.zoom;
+      const scaledY = mouseY / camera.zoom;
+
+      for (let p of planetState) {
+        const dist = Math.hypot(scaledX - p.currentX, scaledY - p.currentY);
+        if (dist <= Math.max(p.radiusSim * 1.8, 12)) {
+          selectPlanet(p.id);
+          playTone(660, 'sine', 0.1);
+          break;
+        }
+      }
+    });
+
+    function handleCanvasHover(e) {
+      const rect = canvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left - (rect.width / 2 + camera.x);
+      const mouseY = e.clientY - rect.top - (rect.height / 2 + camera.y);
+      const scaledX = mouseX / camera.zoom;
+      const scaledY = mouseY / camera.zoom;
+
+      let found = null;
+      for (let p of planetState) {
+        const dist = Math.hypot(scaledX - p.currentX, scaledY - p.currentY);
+        if (dist <= Math.max(p.radiusSim * 1.8, 12)) {
+          found = p;
+          break;
+        }
+      }
+
+      const badge = document.getElementById('canvasHoverBadge');
+      if (found) {
+        canvas.style.cursor = 'pointer';
+        document.getElementById('hoverBadgeName').innerText = found.nameAr + ' (' + found.nameEn + ')';
+        document.getElementById('hoverBadgeDot').style.backgroundColor = found.color;
+        badge.classList.remove('hidden');
+      } else {
+        canvas.style.cursor = camera.isDragging ? 'grabbing' : 'grab';
+        badge.classList.add('hidden');
+      }
+    }
+
+    // Control Handlers
+    function toggleSimPlay() {
+      simPlaying = !simPlaying;
+      document.getElementById('playPauseIcon').innerText = simPlaying ? '⏸' : '▶';
+      document.getElementById('playPauseText').innerText = simPlaying ? 'إيقاف مؤقت' : 'استئناف الدوران';
+    }
+
+    function setSimSpeed(speed) {
+      simSpeedMultiplier = speed;
+      document.querySelectorAll('.speed-btn').forEach(btn => {
+        if (parseFloat(btn.dataset.speed) === speed) {
+          btn.className = 'speed-btn px-2 py-0.5 rounded bg-cyan-500 text-slate-900 font-bold';
+        } else {
+          btn.className = 'speed-btn px-2 py-0.5 rounded text-slate-300 hover:text-white';
+        }
+      });
+    }
+
+    function toggleOrbits() {
+      showOrbits = !showOrbits;
+      document.getElementById('orbitsStatus').innerText = showOrbits ? 'ظاهرة' : 'مخفية';
+      document.getElementById('orbitsStatus').className = showOrbits ? 'text-emerald-400' : 'text-slate-400';
+    }
+
+    function toggleLabels() {
+      showLabels = !showLabels;
+      document.getElementById('labelsStatus').innerText = showLabels ? 'ظاهرة' : 'مخفية';
+      document.getElementById('labelsStatus').className = showLabels ? 'text-emerald-400' : 'text-slate-400';
+    }
+
+    function resetSimView() {
+      camera.x = 0;
+      camera.y = 0;
+      camera.targetZoom = 1.0;
+    }
+
+    /* =========================================================
+       3. PLANETARIUM EXPLORER & GRAVITY CALCULATOR LOGIC
+       ========================================================= */
+    function renderCelestialTabs() {
+      const tabsContainer = document.getElementById('celestialTabsList');
+      tabsContainer.innerHTML = '';
+
+      CELESTIAL_BODIES.forEach(b => {
+        const btn = document.createElement('button');
+        const isSelected = b.id === currentSelectedPlanet.id;
+        btn.className = `px-3.5 py-2 rounded-xl text-xs md:text-sm font-semibold flex items-center gap-2 transition-all whitespace-nowrap shrink-0 ${
+          isSelected 
+            ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-400/50 shadow-lg shadow-cyan-500/10' 
+            : 'bg-slate-900/80 text-slate-300 border border-slate-800 hover:bg-slate-800/80'
+        }`;
+        btn.innerHTML = `
+          <span class="w-3 h-3 rounded-full" style="background-color: ${b.color}; box-shadow: 0 0 8px ${b.color}"></span>
+          <span>${b.nameAr}</span>
+        `;
+        btn.onclick = () => selectPlanet(b.id);
+        tabsContainer.appendChild(btn);
+      });
+    }
+
+    function selectPlanet(planetId) {
+      const planet = CELESTIAL_BODIES.find(p => p.id === planetId);
+      if (!planet) return;
+      currentSelectedPlanet = planet;
+
+      renderCelestialTabs();
+      updateFactSheetUI(planet);
+      calculateWeightOnPlanet();
+
+      const foundInState = planetState.find(p => p.id === planetId);
+      if (foundInState && foundInState.orbitDist > 0) {
+        camera.x = -foundInState.currentX * camera.zoom;
+        camera.y = -foundInState.currentY * camera.zoom;
+      }
+    }
+
+    function updateFactSheetUI(planet) {
+      document.getElementById('planetNameAr').innerText = planet.nameAr;
+      document.getElementById('planetNameEn').innerText = planet.nameEn + ' · ' + planet.type;
+      document.getElementById('planetSummary').innerText = planet.summary;
+      document.getElementById('metricDiameter').innerText = planet.diameter;
+      document.getElementById('metricDistance').innerText = planet.distance;
+      document.getElementById('metricTemp').innerText = planet.temp;
+      document.getElementById('metricPeriod').innerText = planet.period;
+      document.getElementById('metricGravity').innerText = planet.gravity + ' m/s²';
+      document.getElementById('metricMoons').innerText = planet.moons;
+      document.getElementById('planetFactInsight').innerText = planet.insight;
+
+      const box = document.getElementById('planetGraphicBox');
+      box.style.background = `radial-gradient(circle at 35% 35%, ${planet.color}, #090D16)`;
+      box.style.boxShadow = `0 0 45px -5px ${planet.accentGlow}`;
+    }
+
+    function calculateWeightOnPlanet() {
+      const input = document.getElementById('studentWeightInput');
+      let earthWeight = parseFloat(input.value) || 50;
+      if (earthWeight <= 0) earthWeight = 50;
+
+      const planet = currentSelectedPlanet;
+      const ratio = planet.gravity / 9.80;
+      const weightOnPlanet = earthWeight * ratio;
+
+      document.getElementById('calculatedWeightVal').innerText = weightOnPlanet.toFixed(1);
+      
+      const percentRatio = Math.round(ratio * 100);
+      document.getElementById('weightRatioBadge').innerText = `${percentRatio}% من وزنك الأرضي`;
+
+      let explanation = '';
+      if (planet.id === 'mercury') {
+        explanation = 'ستشعرين بخفة فائقة! يمكنك القفز أعلى بـ 2.6 مرة من قفزتك المعتادة في صالة الرياضة المدرسية.';
+      } else if (planet.id === 'venus') {
+        explanation = 'وزنك مقارب للأرض (91%)، لكن الغلاف الجوي الكثيف سيشكل ضغطاً ساحقاً يعادل الغوص 900 متر تحت المحيط!';
+      } else if (planet.id === 'earth') {
+        explanation = 'هذا هو معيار الجاذبية القياسي لبيئتنا الحيوية (1.00g).';
+      } else if (planet.id === 'mars') {
+        explanation = 'وزنك 38% فقط! تخيلي أنك تحملين حقيبة مدرسية ثقيلة فتبدو لك بخفة كيس قطن!';
+      } else if (planet.id === 'jupiter') {
+        explanation = 'جاذبية عملاقة تعادل 2.4 ضعف الأرض! المشي هنا سيتطلب قوة عضلية خارقة كأنك تحملين شخصين إضافيين فوق كتفيك!';
+      } else if (planet.id === 'saturn') {
+        explanation = 'رغم كتلته الضخمة، فإن كثافته القليلة تجعل وزنه قريباً جداً من الأرض (106%).';
+      } else if (planet.id === 'uranus') {
+        explanation = 'جاذبيته أقل قليلاً من الأرض (89%)، محاطاً بطبقات جليدية من الميثان والهيدروجين.';
+      } else if (planet.id === 'neptune') {
+        explanation = 'جاذبيته 114%، في أبرد وأعنف كواكب النظام الشمسي برياح تعادل سرعة الصوت!';
+      } else if (planet.id === 'sun') {
+        explanation = 'جاذبية قاهرة (28 ضعف الأرض)! وزن 50 كجم يصبح 1,400 كجم، لكن حرارة 5,500°م ستبخر أي مادة فوراً!';
+      } else {
+        explanation = `في هذا الجرم الكوني، تبلغ النسبة ${percentRatio}% مقارنة بمستوى سطح البحر على الأرض.`;
+      }
+      document.getElementById('weightPhysicExplanation').innerText = explanation;
+    }
+
+    /* =========================================================
+       4. COSMIC QUIZ / CHALLENGE LOGIC
+       ========================================================= */
+    const QUIZ_QUESTIONS = [
+      {
+        question: 'لماذا يدور كوكب عطارد حول الشمس بسرعة مدارية هائلة (47.4 كم/ث) بينما يتحرك كوكب نبتون بسرعة (5.4 كم/ث) فقط؟',
+        options: [
+          { text: 'بسبب قانون كبلر الثاني والثالث؛ فقوة التجاذب الكتلي لنيوتن تتناسب عكسياً مع مربع المسافة.', correct: true },
+          { text: 'لأن حجم عطارد أصغر بكثير من نبتون، والكتل الصغيرة تتحرك دائماً أسرع في الفضاء.', correct: false },
+          { text: 'بسبب الرياح الشمسية الناتجة عن التوهجات والتي تدفع عطارد إلى الأمام باستمرار.', correct: false },
+          { text: 'لأن المجال المغناطيسي لعطارد ينجذب مع نواة الشمس فيضاعف سرعته.', correct: false }
+        ],
+        explanation: 'وفقاً لقوانين كبلر وقانون الجذب العام لنيوتن، كلما اقترب الكوكب من الشمس زادت قوة الجاذبية المؤثرة عليه، مما يتطلب سرعة مدارية أكبر لمعادلة الجاذبية ومنع السقوط نحو الشمس.'
+      },
+      {
+        question: 'خلال رحلة رائدة الفضاء السعودية ريانة برناوي على متن محطة الفضاء الدولية (ISS)، لماذا تطفو الأجسام بحرية؟',
+        options: [
+          { text: 'بسبب انعدام الجاذبية الأرضية تماماً عند مدار المحطة (0% جاذبية).', correct: false },
+          { text: 'لأن المحطة بروادها في حالة "سقوط حر مستمر" نحو الأرض مع سرعة أفقية هائلة تحفظ مدارها (Microgravity).', correct: true },
+          { text: 'لأن محركات الدفع الصاروخية للمحطة تلغي الجاذبية الأرضية باستمرار.', correct: false },
+          { text: 'لأن الفراغ المحيط بالمحطة يمتص قوى الشد والجاذبية.', correct: false }
+        ],
+        explanation: 'الجاذبية الأرضية عند ارتفاع 400 كم لا تزال تعادل حوالي 90% من قيمتها على السطح! لكن الرواد يطفون لأن المحطة وروادها يسقطون معاً باستمرار نحو الأرض بسرعة مدارية (28,000 كم/س) تمنعهم من الاصطدام بها.'
+      },
+      {
+        question: 'رغم أن عطارد هو الأقرب للشمس، إلا أن كوكب الزهرة هو الأعلى حرارة في النظام الشمسي (تتجاوز 465°م). ما السبب العلمي؟',
+        options: [
+          { text: 'لأن نواة الزهرة تحتوي على عناصر يورانيوم مشعة تولد طاقة حرارية ذاتية هائلة.', correct: false },
+          { text: 'لأن غلاف الزهرة الجوي الفائق الكثافة (96.5% CO2) يُحدث ظاهرة احتباس حراري كارثية تحبس الطاقة.', correct: true },
+          { text: 'لأن الزهرة يدور حول نفسه بعكس اتجاه عقارب الساعة فيولد احتكاكاً حرارياً.', correct: false },
+          { text: 'لأن أمطار حمض الكبريتيك على الزهرة تتفاعل مع الصخور وتولد حرارة تفاعلية لا تنطفئ.', correct: false }
+        ],
+        explanation: 'الغلاف الجوي للزهرة يبلغ ضغطه 90 ضعف ضغط الأرض ويتكون غالبيته الساحقة من ثاني أكسيد الكربون، مما يمنع الأشعة تحت الحمراء من الهروب، صانعاً أقوى بيت دفيئة طبيعي في النظام الشمسي.'
+      }
+    ];
+
+    let currentQuizIndex = 0;
+    let quizScore = 0;
+    let quizAnswered = false;
+
+    function renderQuizQuestion() {
+      const q = QUIZ_QUESTIONS[currentQuizIndex];
+      document.getElementById('quizStepText').innerText = `السؤال ${currentQuizIndex + 1} من ${QUIZ_QUESTIONS.length}`;
+      document.getElementById('quizScorePreview').innerText = `النقاط: ${quizScore}/${QUIZ_QUESTIONS.length}`;
+      
+      const progressPercent = ((currentQuizIndex + 1) / QUIZ_QUESTIONS.length) * 100;
+      document.getElementById('quizProgressBar').style.width = `${progressPercent}%`;
+
+      document.getElementById('quizQuestionTitle').innerText = q.question;
+
+      const optsList = document.getElementById('quizOptionsList');
+      optsList.innerHTML = '';
+
+      const explBox = document.getElementById('quizExplanationBox');
+      explBox.classList.add('hidden');
+      document.getElementById('quizNextBtn').classList.add('hidden');
+      quizAnswered = false;
+
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'quiz-opt-btn w-full p-3.5 rounded-xl text-xs sm:text-sm font-medium text-right bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-200 transition-all flex items-start gap-2.5';
+        btn.innerHTML = `
+          <span class="w-5 h-5 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-[10px] font-mono text-cyan-400 shrink-0 mt-0.5">
+            ${['أ', 'ب', 'ج', 'د'][idx]}
+          </span>
+          <span class="flex-1 leading-relaxed">${opt.text}</span>
+        `;
+        btn.onclick = () => handleQuizOptionClick(opt, btn, q);
+        optsList.appendChild(btn);
+      });
+    }
+
+    function handleQuizOptionClick(chosenOpt, chosenBtn, q) {
+      if (quizAnswered) return;
+      quizAnswered = true;
+
+      const allBtns = document.querySelectorAll('.quiz-opt-btn');
+      allBtns.forEach(b => b.classList.add('pointer-events-none'));
+
+      const explBox = document.getElementById('quizExplanationBox');
+      explBox.classList.remove('hidden');
+
+      if (chosenOpt.correct) {
+        quizScore++;
+        playTone(880, 'triangle', 0.2);
+        chosenBtn.classList.remove('bg-slate-900/80', 'border-slate-800');
+        chosenBtn.classList.add('bg-emerald-950/70', 'border-emerald-500', 'text-emerald-200');
+        
+        explBox.className = 'p-4 rounded-xl border border-emerald-500/30 bg-emerald-950/30 text-emerald-200 text-xs sm:text-sm leading-relaxed mb-5 text-right';
+        explBox.innerHTML = `<strong>إجابة صحيحة وممتازة! ✨</strong><br>${q.explanation}`;
+      } else {
+        playTone(330, 'sawtooth', 0.25);
+        chosenBtn.classList.remove('bg-slate-900/80', 'border-slate-800');
+        chosenBtn.classList.add('bg-rose-950/70', 'border-rose-500', 'text-rose-200');
+
+        q.options.forEach((opt, i) => {
+          if (opt.correct) {
+            allBtns[i].classList.add('border-emerald-500/50', 'bg-emerald-950/40', 'text-emerald-300');
+          }
+        });
+
+        explBox.className = 'p-4 rounded-xl border border-rose-500/30 bg-rose-950/30 text-rose-200 text-xs sm:text-sm leading-relaxed mb-5 text-right';
+        explBox.innerHTML = `<strong>إجابة غير دقيقة!</strong><br>${q.explanation}`;
+      }
+
+      document.getElementById('quizScorePreview').innerText = `النقاط: ${quizScore}/${QUIZ_QUESTIONS.length}`;
+      document.getElementById('quizNextBtn').classList.remove('hidden');
+    }
+
+    function nextQuizQuestion() {
+      currentQuizIndex++;
+      if (currentQuizIndex < QUIZ_QUESTIONS.length) {
+        renderQuizQuestion();
+      } else {
+        showQuizResults();
+      }
+    }
+
+    function showQuizResults() {
+      document.getElementById('quizQuestionBox').classList.add('hidden');
+      document.getElementById('quizResultBox').classList.remove('hidden');
+
+      document.getElementById('finalScoreDisplay').innerText = `${quizScore} / ${QUIZ_QUESTIONS.length}`;
+
+      if (quizScore === 3) {
+        document.getElementById('resultEmoji').innerText = '🏆';
+        document.getElementById('resultTitle').innerText = 'علامة كاملة! رائدة فضاء موهوبة بامتياز';
+        document.getElementById('resultDesc').innerText = 'إتقان علمي باهر يعكس عمق التفكير والتحصيل الفيزيائي المتميز لطالبات موهبة في ثاني ثانوي!';
+        launchConfettiCelebration();
+      } else if (quizScore === 2) {
+        document.getElementById('resultEmoji').innerText = '✨';
+        document.getElementById('resultTitle').innerText = 'أداء رائع ومتميز!';
+        document.getElementById('resultDesc').innerText = 'لديكِ أساس علمي راسخ وشغف كبير باكتشاف أسرار الميكانيكا المدارية والفضاء.';
+        launchConfettiCelebration();
+      } else {
+        document.getElementById('resultEmoji').innerText = '🚀';
+        document.getElementById('resultTitle').innerText = 'محاولة جيدة وشغف يستحق التقدير!';
+        document.getElementById('resultDesc').innerText = 'الفضاء بحر واسع من الأسرار، ويمكنك مراجعة المعلومات وإعادة التحدي للوصول إلى النجوم!';
+      }
+    }
+
+    function restartQuiz() {
+      currentQuizIndex = 0;
+      quizScore = 0;
+      document.getElementById('quizResultBox').classList.add('hidden');
+      document.getElementById('quizQuestionBox').classList.remove('hidden');
+      renderQuizQuestion();
+    }
+
+    function launchConfettiCelebration() {
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 80,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#38BDF8', '#F59E0B', '#EC4899', '#A855F7']
+        });
+      }
+    }
+
+    /* =========================================================
+       5. WEB AUDIO SYNTHESIZER
+       ========================================================= */
+    let audioCtx = null;
+    let isSoundOn = false;
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    }
+
+    function playTone(freq, type = 'sine', duration = 0.15) {
+      if (!isSoundOn) return;
+      try {
+        initAudio();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {
+        // silent audio fallback
+      }
+    }
+
+    function toggleCosmicSound() {
+      initAudio();
+      isSoundOn = !isSoundOn;
+
+      const icon = document.getElementById('soundIcon');
+      const label = document.getElementById('soundLabel');
+
+      if (isSoundOn) {
+        icon.innerText = '🔊';
+        label.innerText = 'الصوت مفعّل';
+        playTone(520, 'sine', 0.2);
+      } else {
+        icon.innerText = '🔇';
+        label.innerText = 'صوت كوني';
+      }
+    }
+
+    /* =========================================================
+       6. BACKGROUND PARTICLES (STARFIELD)
+       ========================================================= */
+    const starCanvas = document.getElementById('starfieldCanvas');
+    const starCtx = starCanvas.getContext('2d');
+    let stars = [];
+
+    function initStarfield() {
+      starCanvas.width = window.innerWidth;
+      starCanvas.height = window.innerHeight;
+      stars = [];
+      const numStars = Math.floor((window.innerWidth * window.innerHeight) / 3500);
+      for (let i = 0; i < numStars; i++) {
+        stars.push({
+          x: Math.random() * starCanvas.width,
+          y: Math.random() * starCanvas.height,
+          radius: Math.random() * 1.4 + 0.3,
+          alpha: Math.random() * 0.7 + 0.3,
+          speed: Math.random() * 0.05 + 0.02
+        });
+      }
+    }
+
+    function animateStars() {
+      starCtx.clearRect(0, 0, starCanvas.width, starCanvas.height);
+      stars.forEach(st => {
+        st.alpha += (Math.random() - 0.5) * 0.02;
+        if (st.alpha < 0.2) st.alpha = 0.2;
+        if (st.alpha > 0.9) st.alpha = 0.9;
+
+        starCtx.fillStyle = `rgba(255, 255, 255, ${st.alpha})`;
+        starCtx.beginPath();
+        starCtx.arc(st.x, st.y, st.radius, 0, Math.PI * 2);
+        starCtx.fill();
+      });
+      requestAnimationFrame(animateStars);
+    }
+
+    window.addEventListener('resize', initStarfield);
+    initStarfield();
+    animateStars();
+
+    /* =========================================================
+       7. UTILITY: COPY LINK
+       ========================================================= */
+    function copyProjectLink() {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        document.getElementById('copyLinkText').innerText = 'تم النسخ! ✓';
+        document.getElementById('copyLinkIcon').innerText = '✅';
+        setTimeout(() => {
+          document.getElementById('copyLinkText').innerText = 'مشاركة الرابط';
+          document.getElementById('copyLinkIcon').innerText = '🔗';
+        }, 2500);
+      }).catch(() => {
+        alert('يمكنك نسخ رابط الصفحة من شريط المتصفح.');
+      });
+    }
+
+    /* Initial execution */
+    renderCelestialTabs();
+    updateFactSheetUI(currentSelectedPlanet);
+    calculateWeightOnPlanet();
+    renderQuizQuestion();
+  </script>
+</body>
+</html>
